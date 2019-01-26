@@ -1,8 +1,8 @@
-# 设置编码格式为UTF-8
+/*设置编码格式为UTF-8*/
 SET NAMES UTF8;
-# 如果xiaofeiniu这个数据库已存在就删除掉
+/*如果xiaofeiniu这个数据库已存在就删除掉*/
 DROP DATABASE IF EXISTS xiaofeiniu;
-# 创建数据库
+/*创建数据库*/
 CREATE DATABASE xiaofeiniu CHARSET=UTF8;
 USE xiaofeiniu;
 
