@@ -19,10 +19,10 @@
             axios.get("http://127.0.0.1:8090/admin/category")
                 .then((result)=>{
                     console.log("获取菜品类别成功");
-                    console.log(result);
+                    console.log(result.data);
                 })
                 .catch((err)=>{
-
+                    console.log(err);
                 })
         }
     </script>
