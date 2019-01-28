@@ -31,19 +31,24 @@ router.get('/',(req,res)=>{
  */
 router.delete('/:cid',(req,res)=>{
     // pool.query(sql语句,参数,回调函数)
-    pool.query("DELETE FROM xfn_category WHERE cid=?",req.params.cid,(err,result)=>{
+    // 注意：删除菜品类别前必须先把属于该类别的菜品的类别编号设置为NULL
+    pool.query("UPDATE xfn_dish SET categoryId=NULL WHERE categoryId=?",req.param.cid,(err,result)=>{
         if(err) throw err;
-        // 获取DELETE语句在数据库中影响的行数
-        if(result.affectedRows > 0){
-            res.send({code:200,msg:'1 category deleted'});
-        }else{
-            res.send({code:400,msg:'0 category deleted'});
-        }
+        // 至此指定类别的菜品已经修改完毕
+        pool.query("DELETE FROM xfn_category WHERE cid=?",req.params.cid,(err,result)=>{
+            if(err) throw err;
+            // 获取DELETE语句在数据库中影响的行数
+            if(result.affectedRows > 0){
+                res.send({code:200,msg:'1 category deleted'});
+            }else{
+                res.send({code:400,msg:'0 category deleted'});
+            }
+        })
     })
 })
 
 /**
- * API PUT /admin/category
+ * API PUT /admin/category  （幂等：做过很多次结果都一样）（非幂等：做一次结果变一次）
  * 请求参数：{cid:xx,cname:'xxx'}
  * 含义：根据菜品编号修改该类别
  * 返回值 形如：
@@ -51,5 +56,9 @@ router.delete('/:cid',(req,res)=>{
  * {code:400,msg:'0 category modified,not exists',cid:x} 类别不存在
  * {code:401,msg:'0 category modified,no modification',cid:x} 类别存在，成功修改，但
  */
+router.post("/",(req,res)=>{
+    console.log("获取到请求数据");
+    console.log(req.body)
+})
 
 module.exports=router;
