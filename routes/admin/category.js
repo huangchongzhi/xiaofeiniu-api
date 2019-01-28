@@ -82,11 +82,11 @@ router.put("/",(req,res)=>{
     pool.query("UPDATE xfn_category SET ? WHERE cid=?",[data,data.cid],(err,result)=>{
         if(err) throw err;
         // 获取DELETE语句在数据库中影响的行数
-        if(result.updateRows > 0){// 实际更新了一行
+        if(result.changedRows > 0){// 实际修改了一行
             res.send({code:200,msg:'1 category modified',cid:data.cid});
-        }else if(result.affectedRows == 0){
+        }else if(result.affectedRows == 0){ // 影响到0行
             res.send({code:400,msg:'category modified,not exists',cid:data.cid});
-        }else if(result.affectedRows==1 && result.updateRows==0){// 影响到1行，但修改了0行——新值与旧值完全一样
+        }else if(result.affectedRows==1 && result.changedRows==0){// 影响到1行，但修改了0行——新值与旧值完全一样
             res.send({code:401,msg:'0 category modified,no modification',cid:data.cid});
         }
     })
