@@ -24,7 +24,7 @@
             })
             .catch((err)=>{
                 console.log(err);
-            })
+            });
         }
         // 删除菜品类别
         bt2.onclick = function(){
@@ -38,7 +38,20 @@
             })
             .catch((err)=>{
                 console.log(err);
+            });
+        }
+        // 添加新的菜品类别
+        bt3.onclick = function(){
+            // 向服务器发送JSON类型的请求数据
+            var data = {cname:'恐龙类'};
+            axios.post("http://127.0.0.1:8090/admin/category",data)
+            .then((result)=>{
+                console.log("添加新的类别成功");
+                console.log(result.data);
             })
+            .catch((err)=>{
+                console.log(err);
+            });
         }
     </script>
 </body>
