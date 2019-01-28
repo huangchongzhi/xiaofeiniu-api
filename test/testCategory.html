@@ -53,6 +53,19 @@
                 console.log(err);
             });
         }
+        // 修改菜品类别
+        bt4.onclick = function(){
+            // 向服务器发送JSON类型的请求数据
+            var data = {cid:20,cname:'史前类'};
+            axios.put("http://127.0.0.1:8090/admin/category",data)
+            .then((result)=>{
+                console.log("修改类别执行成功");
+                console.log(result.data);
+            })
+            .catch((err)=>{
+                console.log(err);
+            });
+        }
     </script>
 </body>
 </html>

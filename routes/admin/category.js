@@ -77,14 +77,17 @@ router.post("/",(req,res)=>{
  * {code:401,msg:'0 category modified,no modification',cid:x} 类别存在，成功修改，但
  */
 router.put("/",(req,res)=>{
-    var data = req.body;
-    pool.query("UPDATE xfn_category SET ?",data,(err,result)=>{
+    var data = req.body; // 请求数据{cid:xx,cname:'xx'}
+    // TODO：此处可以对输入数据进行检验
+    pool.query("UPDATE xfn_category SET ? WHERE cid=?",[data,data.cid],(err,result)=>{
         if(err) throw err;
         // 获取DELETE语句在数据库中影响的行数
-        if(result.affectedRows > 0){
-            res.send({code:200,msg:'1 category modified'});
-        }else{
-            res.send({code:400,msg:'category modified,not exists'});
+        if(result.updateRows > 0){// 实际更新了一行
+            res.send({code:200,msg:'1 category modified',cid:data.cid});
+        }else if(result.affectedRows == 0){
+            res.send({code:400,msg:'category modified,not exists',cid:data.cid});
+        }else if(result.affectedRows==1 && result.updateRows==0){// 影响到1行，但修改了0行——新值与旧值完全一样
+            res.send({code:401,msg:'0 category modified,no modification',cid:data.cid});
         }
     })
 })
