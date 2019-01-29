@@ -1,7 +1,8 @@
 console.log('准备启动API服务器....');
 console.log(new Date().toLocaleString());
-const categoryRouter = require('./routes/admin/category')
-const adminRouter = require('./routes/admin/admin')
+const categoryRouter = require('./routes/admin/category');
+const adminRouter = require('./routes/admin/admin');
+const dishRouter = require('./routes/admin/dish');
 
 // 小肥牛扫码点餐系统API子系统
 const PORT =8090;
@@ -23,3 +24,4 @@ app.use(bodyParser.json());// 把application/json格式的请求主体解析出�
 // 挂载路由
 app.use("/admin/category",categoryRouter);
 app.use("/admin",adminRouter);
+app.use("/dish",dishRouter);
