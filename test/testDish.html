@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button id="bt1">获取所有菜品</button>
+    <button id="bt2">获取某一道菜品</button>
+    <button id="bt3">添加菜品</button>
+    <button id="bt4">删除菜品</button>
+    <button id="bt5">修改菜品</button>
+
+    <script src='./axios.min.js'></script>
+    <script>
+        // 获取所有菜品
+        bt1.onclick = function(){
+            //跨域访问需要填写端口号
+            axios.get("http://127.0.0.1:8090/admin/dish")
+            .then((result)=>{
+                console.log(result.data);
+            })
+            .catch((err)=>{
+                console.log(err);
+            });
+        }
+    </script>
+
+    <hr>
+    <h3>文件上传</h3>
+    <form action="http://127.0.0.1:8090/admin/dish/image" method="POST" enctype="multipart/form-data">
+        <input type="file" name="dishImg"><br>
+        <input type="text" name="description"><br>
+        <input type="submit">
+    </form>
+</body>
+</html>

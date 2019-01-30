@@ -24,7 +24,7 @@
         }
         // 修改管理员密码
         bt2.onclick = function(){
-            var data = {aname:'admin',oldPwd:'123457',newPwd:'123456'}
+            var data = {aname:'admin',oldPwd:'123456',newPwd:'123456'}
             axios.patch("http://127.0.0.1:8090/admin",data)
             .then((result)=>{
                 console.log("改密操作执行成功：");
