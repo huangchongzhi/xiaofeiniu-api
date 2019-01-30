@@ -41,27 +41,28 @@ router.get('/',(req,res)=>{
  * API： /POST /admin/dish/image  每次上传不一样（非幂等）
  * 请求参数：{}
  * 接收客户端上传的菜品图片，保存在服务器上，返回该图片在服务器上的随机文件名
+ * 响应数据：
+ *  {code:200, msg:'upload succ',fileName:'1351324631-8821.jpg'}
  */
 // 1、下载模块 npm i multer --save
 // 2、引入中间件
 const multer = require('multer');
 const fs = require('fs'); //文件模块
 var upload = multer({
-    dest:'tmp/'  //制定客户端上传的文件临时存储路径
+    dest:'tmp/' //制定客户端上传的文件临时存储路径
 })
 // 3、单个用single()、多个用array()
 router.post("/image",upload.single('dishImg'),(req,res)=>{
     // console.log(req.file); //客户端上传的文件
     // console.log(req.body); //客户端随同图片提交的字符数据
     // 把客户端上传的文件从临时目录转移到永久的图片路径下
-    var tmpFile = req.file.path; //临时文件
+    var tmpFile = req.file.path; //临时文件名
     var suffix = req.file.originalname.substring(req.file.originalname.lastIndexOf('.'));//原始文件名中的后缀部分
     var newFile = randFileName(suffix);//目标文件名
     fs.rename(tmpFile, 'img/dish/'+newFile,()=>{
         res.send({code:200, msg:'upload succ',fileName:newFile});//把临时文件转移
     }); 
 });
-
 // 生成一个随机文件名
 // 参数：suffix表示要生成的文件名中的后缀
 // 形如：1351324631-8821.jpg

@@ -9,10 +9,16 @@
 <body>
     <button id="bt1">获取所有菜品</button>
     <button id="bt2">获取某一道菜品</button>
-    <button id="bt3">添加菜品</button>
-    <button id="bt4">删除菜品</button>
-    <button id="bt5">修改菜品</button>
 
+    <hr>
+    <input type="text" id="inputDesc">
+    <input type="file" id="inputFile">
+    <button id="bt3" type="button">异步上传菜品图片</button>
+    <hr>
+
+    <button id="bt4">添加菜品</button>
+    <button id="bt5">删除菜品</button>
+    <button id="bt6">修改菜品</button>
     <script src='./axios.min.js'></script>
     <script>
         // 获取所有菜品
@@ -24,6 +30,25 @@
             })
             .catch((err)=>{
                 console.log(err);
+            });
+        }
+        // 异步上传菜品图片
+        bt3.onclick = function(){
+            // 异步上传文件
+            // 手工创建一个multipart/form-data形式的请求主体
+            var data = new FormData();
+            // 向请求主体中追加要提交的数据
+            data.append('description', inputDesc.value);
+            // 向请求主体中追加用户选中的文件
+            // console.dir(inputFile);
+            data.append('dishImg', inputFile.files[0]);//.files[0] 选中的文件
+            // 使用axios将请求主体异步提交给服务器
+            axios.post("http://127.0.0.1:8090/admin/dish/image",data)
+            .then((result)=>{
+                alert(  JSON.stringify(result.data)  );//将[object.object]转为json字符串
+            })
+            .catch((err)=>{
+                alert(err);
             });
         }
     </script>
